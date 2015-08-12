@@ -6,6 +6,10 @@
   "scripts": {
     "test": "test"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:albertojacini/filter-manager.git"
+  },
   "author": "Alberto Jacini <albertojacini@gmail.com>",
   "license": "ISC"
 }
