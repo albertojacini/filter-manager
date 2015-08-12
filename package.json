@@ -2,7 +2,7 @@
   "name": "filter-manager",
   "version": "1.0.0",
   "description": "A manager for HMTL form filters.",
-  "main": "core.js",
+  "main": "src/core.js",
   "scripts": {
     "test": "test"
   },
