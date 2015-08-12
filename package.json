@@ -1,0 +1,11 @@
+{
+  "name": "filter-manager",
+  "version": "1.0.0",
+  "description": "A manager for HMTL form filters.",
+  "main": "core.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Alberto Jacini <albertojacini@gmail.com>",
+  "license": "ISC"
+}
