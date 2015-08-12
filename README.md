@@ -8,4 +8,4 @@ var FilterList = require('filter-manager').FilterList;
 var data = {};
 
 var filterList = FilterList(data);
-```js
+```
