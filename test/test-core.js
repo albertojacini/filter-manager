@@ -1,9 +1,7 @@
-jest.dontMock('../core');
-jest.dontMock('../search');
-jest.dontMock('../select');
-jest.dontMock('lodash');
+var should = require('chai').should(),
+    FilterList = require('../src/core');
 
-describe('UiFilterList', function() {
+describe('FilterList', function() {
 
   var UiFilterListConstructor,
     filterList;
@@ -31,16 +29,16 @@ describe('UiFilterList', function() {
 
   it('an empty list of filters when no filter is added', function() {
     var activeFilters = filterList.getActiveFilters();
-    expect(activeFilters).toEqual(jasmine.any(Array));
+    expect(activeFilters).to.equal(jasmine.any(Array));
     expect(activeFilters.length).toBe(0);
   });
 
   it('can not add filters of supported types', function() {
-    expect(function(){filterList.addFilter('foo', 'city', {});}).toThrow();
+    expect(function(){filterList.addFilter('foo', 'city', {});}).to.throw();
   });
 
   it('can add filters of supported type', function() {
-    expect(function(){filterList.addFilter('select', 'city', {});}).not.toThrow();
+    expect(function(){filterList.addFilter('select', 'city', {});}).to.not.throw();
   });
 
   it('can add a "search" filter', function() {
@@ -50,7 +48,7 @@ describe('UiFilterList', function() {
     filterList.addFilter('search', FILTER_KEY, {paramKey: 's'});
     filterList.updateFilter(FILTER_KEY, SEARCH_STRING);
     val = filterList.getFilter(FILTER_KEY).getValue();
-    expect(val).toBe(SEARCH_STRING);
+    expect(val).to.be(SEARCH_STRING);
   });
 
 });

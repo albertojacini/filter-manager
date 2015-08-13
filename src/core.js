@@ -78,7 +78,9 @@ function UIFilterList() {
   };
 
   this.getFilterByParamKey = function(paramKey) {
-    var f = _.find(this._allFilters, filter => filter.paramKey === paramKey);
+    var f = _.find(this._allFilters, function(filter) {
+      return filter.paramKey === paramKey;
+    });
     if (_.isUndefined(f)) {
       console.warn('A filter with ' + paramKey + ' as param key is not available. Available filter keys are: ' + Object.keys(this._allFilters));
       return undefined;
@@ -140,7 +142,9 @@ function UIFilterList() {
 
   // Returns a list ok all the registered filters keys. Ex: ['height', 'resistance', 'flowerColor'...]
   this.getFilterKeys = function () {
-    return _.map(this._allFilters, f => _.clone(f.key));
+    return _.map(this._allFilters, function(f) {
+      return _.clone(f.key);
+    });
   };
 
   this.resetAllFilters = function () {
