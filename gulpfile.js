@@ -2,9 +2,11 @@
 
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
+var babel = require('gulp-babel');
 
-gulp.task('default', function() {
+gulp.task('test', function() {
   return gulp.src(['test/test-*.js'], { read: false })
+    .pipe(babel())
     .pipe(mocha({
       reporter: 'spec',
       globals: '*'

@@ -1,21 +1,25 @@
 var _ = require('lodash');
+var {assert} = require('./utils');
+var Filter = require('./Filter');
 
-class RangeFilter {
+class RangeFilter extends Filter {
 
   constructor(options) {
-    this.hasChoices = false;
-    this.paramKey = options.paramKey;
-    this.label = options.label;
+
+    super(options);
+
+    assert(_.isArray(options.initialRange), 'RangeFilter needs a valid initialRange array.');
     this.initialRange = options.initialRange;
 
     // Where the selected choice is stored
     this._range = _.clone(options.initialRange);
+
   }
 
   getParameters() {
     var params = {};
-    params['min_' + this.paramKey] = this._range[0];
-    params['max_' + this.paramKey] = this._range[1];
+    params['min_' + this.queryParamKey] = this._range[0];
+    params['max_' + this.queryParamKey] = this._range[1];
     return params;
   }
 
@@ -39,5 +43,7 @@ class RangeFilter {
   }
 
 }
+
+RangeFilter.constructorId = 'rangeFilterConstructor';
 
 module.exports = RangeFilter;

@@ -1,19 +1,15 @@
 'use strict';
-
 var _ = require('lodash');
+var Filter = require('./Filter');
 
 var DEFAULT_STATE = '';
 
-class SearchFilterConstructor {
+class SearchFilter extends Filter {
 
   constructor(options) {
+    super(options);
     this.hasChoices = false;
-    if (!options.paramKey) {
-      throw Error('a paramKey must be provided');
-    }
-    this.paramKey = options.paramKey;
     this.label = options.label;
-    this.frozen = options.frozen;
 
     // Where the selected choice is stored
     this._value = options.value || DEFAULT_STATE;
@@ -26,7 +22,7 @@ class SearchFilterConstructor {
       return null;
     } else {
       param = {};
-      param[this.paramKey] = this._value;
+      param[this.queryParamKey] = this._value;
       return param;
     }
   };
@@ -49,4 +45,6 @@ class SearchFilterConstructor {
 
 }
 
-module.exports = SearchFilterConstructor;
+SearchFilter.constructorId = 'searchFilterConstructor';
+
+module.exports = SearchFilter;

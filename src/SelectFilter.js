@@ -1,10 +1,12 @@
 var _ = require('lodash');
+var Filter = require('./Filter');
 
 const DEFAULT_STATE = null;
 
-class SelectFilter {
+class SelectFilter extends Filter {
 
   constructor(options) {
+    super();
     this.hasChoices = true;
     this.paramKey = options.paramKey;
     this.label = options.label;
@@ -77,5 +79,7 @@ class SelectFilter {
   }
 
 }
+
+SelectFilter.constructorId = 'selectFilterConstructor';
 
 module.exports = SelectFilter;
