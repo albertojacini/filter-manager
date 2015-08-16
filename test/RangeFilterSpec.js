@@ -60,8 +60,6 @@ describe('RangeFilter', function() {
       filter.set([2, 9]);
       var param = filter.getParameters();
       expect(param).to.be.an('object');
-      console.log('PARAM: ');
-      console.log(param);
       expect(param['min_' + FILTER_QUERY_PARAM_KEY]).to.equal(2);
       expect(param['max_' + FILTER_QUERY_PARAM_KEY]).to.equal(9);
     });

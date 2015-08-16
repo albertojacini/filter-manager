@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var {assert} = require('./utils');
 var Filter = require('./Filter');
 
 // DEFAULT_STATE = [] Todo: use an immutable object if you want to use this variable as reference.
@@ -6,13 +7,9 @@ var Filter = require('./Filter');
 class MultiselectFilter extends Filter {
 
   constructor(options) {
-    super();
-    this.hasChoices = true;
-    this.paramKey = options.paramKey;
-    this.label = options.label;
-    this.choices = options.choices; // Should it be cloned?
+    super(options);
 
-    // _selectedChoices is an array of choices
+    // Where the selected choices are stored
     this._selectedChoices = [];
 
   }
@@ -20,7 +17,7 @@ class MultiselectFilter extends Filter {
   getParameters() {
     var param = {};
     var values =  this._selectedChoices.map(c => c.value);
-    param[this.paramKey] = values;
+    param[this.queryParamKey] = values;
     return param;
   }
 

@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var {assert} = require('./utils');
 var Filter = require('./Filter');
 
 const DEFAULT_STATE = null;
@@ -6,11 +7,7 @@ const DEFAULT_STATE = null;
 class SelectFilter extends Filter {
 
   constructor(options) {
-    super();
-    this.hasChoices = true;
-    this.paramKey = options.paramKey;
-    this.label = options.label;
-    this.choices = options.choices; // Should it be cloned?
+    super(options);
 
     // Where the selected choice is stored
     this._selectedChoice = DEFAULT_STATE;
@@ -20,14 +17,15 @@ class SelectFilter extends Filter {
   getParameters() {
     var param = {};
     try {
-      param[this.paramKey] = this._selectedChoice.value;
+      param[this.queryParamKey] = this._selectedChoice.value;
     } catch (err) {}
     return param;
   }
 
   set(choiceKey) {
-    choiceKey = parseInt(choiceKey, 10);
-    this._selectedChoice = _.find(this.choices, c => c.key === choiceKey);
+    var res = _.find(this.choices, c => c.key === choiceKey);
+    assert(!_.isUndefined(res), 'You are trying to set the filter to a non available choice');
+    this._selectedChoice = res;
   }
 
   /*

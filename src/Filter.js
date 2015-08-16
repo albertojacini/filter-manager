@@ -14,7 +14,13 @@ class Filter {
     assert(_.isString(options.queryParamKey), 'A queryParamKey must be provided');
     this.queryParamKey = options.queryParamKey;
 
-    this.hasChoices = false; // Default
+    if (!_.isUndefined(options.choices)) {
+      for (let c of options.choices) {
+        assert(_.isString(c.key), 'Choices must have a string unique \'key\' field');
+      }
+      this.choices = options.choices;
+    }
+
     this.label = options.label;
 
   }

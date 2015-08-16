@@ -8,7 +8,6 @@ class SearchFilter extends Filter {
 
   constructor(options) {
     super(options);
-    this.hasChoices = false;
     this.label = options.label;
 
     // Where the selected choice is stored
