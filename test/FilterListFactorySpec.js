@@ -66,9 +66,9 @@ describe('FilterList', function() {
     });
   });
 
-  describe('\'getFilterKeys\' method', function() {
+  describe('\'getFilterIds\' method', function() {
     it('should return a list of all the registered filters ids', function() {
-      var list = filterList.getFilterKeys();
+      var list = filterList.getFilterIds();
       expect(list).to.be.an('array');
       expect(list[0]).to.equal(DUMMY_FILTER_ID);
     });

@@ -118,7 +118,7 @@ function createFilterList(constructors/*: array*/) {
     };
 
     // Returns a list ok all the registered filters keys. Ex: ['height', 'resistance', 'flowerColor'...]
-    getFilterKeys() {
+    getFilterIds() {
       return _.map(this._allFilters, function(f) {
         return _.clone(f.id);
       });
