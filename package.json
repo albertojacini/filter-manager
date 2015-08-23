@@ -1,6 +1,6 @@
 {
   "name": "filter-manager",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A manager for HMTL form filters.",
   "main": "lib/index.js",
   "repository": {
@@ -25,6 +25,7 @@
   "scripts": {
     "lint": "eslint src",
     "test": "mocha test --compilers js:babel/register",
+    "test-debug": "mocha test --compilers js:babel/register --debug",
     "build": "babel-node tools/build"
   }
 }

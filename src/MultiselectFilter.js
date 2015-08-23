@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var {assert} = require('./utils');
+var {assert, stringify} = require('./utils');
 var Filter = require('./Filter');
 
 // DEFAULT_STATE = [] Todo: use an immutable object if you want to use this variable as reference.
@@ -21,14 +21,15 @@ class MultiselectFilter extends Filter {
     return param;
   }
 
-  set(choiceKey) {
-    if (_.isArray(choiceKey)) {
-      _.forEach(choiceKey, k => this._selectedChoices.push(this.getChoice(k)));
+  set(choiceKeyOrValue) {
+    var ck = stringify(choiceKeyOrValue);
+    if (_.isArray(ck)) {
+      _.forEach(cK, k => this._selectedChoices.push(this.getChoice(k)));
     } else {
-      if (this.isChoiceSelected(choiceKey)) {
-        this._selectedChoices = this._selectedChoices.filter(c => c.key !== choiceKey);
+      if (this.isChoiceSelected(ck)) {
+        this._selectedChoices = this._selectedChoices.filter(c => c.key !== ck);
       } else {
-        this._selectedChoices.push(this.getChoice(choiceKey));
+        this._selectedChoices.push(this.getChoice(ck));
       }
     }
   }
@@ -72,13 +73,6 @@ class MultiselectFilter extends Filter {
 
   _getChoiceByValue(value) {
     return _.find(this.choices, c => c.value === value);
-  }
-
-  // Filters with choices must implement this method
-  getChoiceKeyFromValue(valuesArray) {
-    var arrayOfValues = _.map(valuesArray, v => parseInt(v, 10));
-    var arrayOfKeys = _.map(arrayOfValues, v => this._getChoiceByValue(v).key);
-    return arrayOfKeys;
   }
 
 }

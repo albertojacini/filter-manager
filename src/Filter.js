@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var {assert} = require('./utils');
+var {assert, checkChoiceHash} = require('./utils');
 
 class Filter {
 
@@ -15,9 +15,7 @@ class Filter {
     this.queryParamKey = options.queryParamKey;
 
     if (!_.isUndefined(options.choices)) {
-      for (let c of options.choices) {
-        assert(_.isString(c.key), 'Choices must have a string unique \'key\' field');
-      }
+      checkChoiceHash(options.choices);
       this.choices = options.choices;
     }
 
