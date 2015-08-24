@@ -58,4 +58,12 @@ describe('SearchFilter', function() {
     });
   });
 
+  describe('\'updateFromQueryParamObject\' method', function() {
+    it('should update from a queryParam object', function() {
+      var queryObject = {'foo_bar': 'Bono Vox', 'boo_ban': 7};
+      filter.updateFromQueryParamObject(queryObject);
+      expect(filter.get()).to.equal('Bono Vox');
+    });
+  });
+
 });

@@ -65,4 +65,27 @@ describe('RangeFilter', function() {
     });
   });
 
+  describe('\'updateFromQueryParamObject\' method', function() {
+    it('should update from a queryParam object', function() {
+      var queryObject = {min_foo_bar: 4, max_foo_bar: 6, boo: 'baba'};
+      filter.updateFromQueryParamObject(queryObject);
+      expect(filter.get()[0]).to.equal(4);
+      expect(filter.get()[1]).to.equal(6);
+    });
+  });
+
+});
+
+describe('In RangeFilter, \'updateFiltersFromQueryObject\' method of the filterList obj', function() {
+  it('should update filters from query object', function() {
+      var FilterListFactory = require('../src/FilterListFactory');
+      var FilterList = FilterListFactory([RangeFilter]);
+      var filterList = new FilterList([options]);
+      var queryObj = {min_foo_bar: 4, max_foo_bar: 6};
+      var filter;
+      filterList.updateFiltersFromQueryObject(queryObj);
+      filter = filterList.getFilter(FILTER_ID);
+      expect(filter).to.be.an('object');
+      expect(filter.get()).to.equal([4, 6]);
+  });
 });

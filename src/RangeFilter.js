@@ -34,12 +34,30 @@ class RangeFilter extends Filter {
     return this._range;
   }
 
+
   resetToDefaultState() {
     this._range = this.initialRange;
   }
 
   isSetToDefaultState() {
     return (this._range[0] === this.initialRange[0] && this._range[1] === this.initialRange[1]);
+  }
+
+  updateFromQueryParamObject(obj) {
+    var that = this;
+    var min = null, max = null;
+    // Find 2 parameters like {min_length: 3, max_length: 7}
+    Object.keys(obj).forEach(function (key) {
+      if (_.endsWith(key, '_' + that.queryParamKey)) {
+        if (_.startsWith(key, 'min_')) {
+          min = key;
+        } else if (_.startsWith(key, 'max_')) {
+          max = key;
+        }
+      }
+    });
+    assert(!_.isNull(min) && !_.isNull(max), 'RangeFilter ' + this.id + 'couldnt find its params');
+    this.set([obj[min], obj[max]]);
   }
 
 }

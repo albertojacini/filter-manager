@@ -10,7 +10,8 @@ var options = {
   queryParamKey: FILTER_QUERY_PARAM_KEY,
   choices: [
     {key: '0', value: 0, label:  'Foo'},
-    {key: '1', value: 1, label:  'Bar'}
+    {key: '1', value: 1, label:  'Bar'},
+    {key: '2', value: 2, label:  'Ter'}
   ]
 };
 
@@ -50,7 +51,7 @@ describe('SelectFilter', function() {
     });
 
     it('should throw an error when fed an unavailable key', function() {
-      expect(function() {filter.set('2')}).to.throw(Error); // Unavailable filter
+      expect(function() {filter.set('3')}).to.throw(Error); // Unavailable filter
     });
 
     it('should set the value and return the choice\'s key, when set with a number', function() {
@@ -59,7 +60,7 @@ describe('SelectFilter', function() {
     });
 
     it('should throw an error when fed an unavailable key', function() {
-      expect(function() {filter.set(2)}).to.throw(Error); // Unavailable filter
+      expect(function() {filter.set(3)}).to.throw(Error); // Unavailable filter
     });
   });
 
@@ -80,6 +81,14 @@ describe('SelectFilter', function() {
       var param = filter.getParameters();
       expect(param).to.be.an('object');
       expect(param[FILTER_QUERY_PARAM_KEY]).to.equal(1); // choice's 'value' param
+    });
+  });
+
+  describe('\'updateFromQueryParamObject\' method', function() {
+    it('should update from a queryParam object', function() {
+      var queryObject = {'foo_bar': 1, 'boo_ban': 7};
+      filter.updateFromQueryParamObject(queryObject);
+      expect(filter.get()).to.equal('1');
     });
   });
 

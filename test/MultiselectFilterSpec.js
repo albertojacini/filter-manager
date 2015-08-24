@@ -83,4 +83,13 @@ describe('MultiselectFilter', function() {
     });
   });
 
+  describe('\'updateFromQueryParamObject\' method', function() {
+    it('should update from a queryParam object', function() {
+      var queryObject = {'foo_bar': [1, '2'], 'boo_ban': 7};
+      filter.updateFromQueryParamObject(queryObject);
+      expect(filter.get()[0]).to.equal('1');
+      expect(filter.get()[1]).to.equal('2');
+    });
+  });
+
 });

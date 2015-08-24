@@ -69,6 +69,18 @@ class SelectFilter extends Filter {
     }
   }
 
+  updateFromQueryParamObject(obj) {
+    var that = this;
+    var choiceKey = null;
+    Object.keys(obj).forEach(function(key) {
+      if (key === that.queryParamKey) {
+        choiceKey = obj[key];
+      }
+    });
+    assert(!_.isNull(choiceKey), 'SelectFilter ' + this.id + ' couldn\'t find its params');
+    this.set(choiceKey);
+  }
+
 }
 
 SelectFilter.constructorId = 'selectFilterConstructor';

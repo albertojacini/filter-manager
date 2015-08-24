@@ -7,28 +7,31 @@ var mandatoryFilterConstructorInterface = [
   'set',
   'getParameters',
   'isSetToDefaultState',
-  'resetToDefaultState'
+  'resetToDefaultState',
+  'updateFromQueryParamObject'
 ];
 
 function createFilterList(constructors/*: array*/) {
 
   assert(_.isArray(constructors), 'constructors must be an array');
+  // Every added filter must implement an interface
+
+  for (var c of constructors) {
+    for (var m of mandatoryFilterConstructorInterface) {
+      assert(_.isFunction(c.prototype[m]), c.constructorId + ' constructor must implement the \'' + m + '\' method!');
+    }
+  }
 
   class FilterList {
 
-    constructor(initialFilters/*: array*/) {
-      // Every added filter must implement an interface
-      for (var c of constructors) {
-        for (var m of mandatoryFilterConstructorInterface) {
-          assert(_.isFunction(c.prototype[m]), c.constructorId + ' constructor must implement the \'' + m + '\' method!');
-        }
-      }
-
+    constructor(arrayOfOptions/*: array*/) {
+      assert(_.isArray(arrayOfOptions), 'initial filter options bust be collected in an array');
       this.filterConstructors = _.indexBy(constructors, 'constructorId');
-
       this._allFilters = {};
       this.parameters = {};
-      initialFilters.forEach(f => this._addFilter(f));
+      for (var f of arrayOfOptions) {
+        this._addFilter(f);
+      }
     }
 
     /**
@@ -66,35 +69,20 @@ function createFilterList(constructors/*: array*/) {
       }
     };
 
-    // updateFilters takes a serialized object with query param keys (not js object keys).
+    // updateFiltersFromQueryObject takes a serialized object with query param keys (not js object keys).
     // Select and multiselect filters need to be modified using the key that is retrieved with getChoiceKeyFromValue.
     updateFiltersFromQueryObject(obj) {
-      var that = this;
-      var updatedFilters = [];
-      _.forEach(obj, function(value, key) {
-        var f = that.getFilterByPQueryaramKey(key);
-        if (_.isUndefined(f)) {
-          console.warn(key + ' is not a filter parameter');
-        } else {
-          if (f.hasChoices) {
-            // Filters with choices must implement the getChoiceKeyFromValue() method.
-            var k = f.getChoiceKeyFromValue(value);
-            f.set(k);
-          } else {
-            f.set(value);
-          }
-          updatedFilters.push(f);
-        }
-      });
-      return updatedFilters;
+      for (let f of this._allFilters) {
+        f.updateFromQueryParamObject(obj);
+      }
     };
 
-    updateFilter(key, value) {
-      this.getFilter(key).set(value);
+    updateFilter(id, value) {
+      this.getFilter(id).set(value);
     };
 
-    resetFilter(key) {
-      this.getFilter(key).resetToDefaultState();
+    resetFilter(id) {
+      this.getFilter(id).resetToDefaultState();
     };
 
     getActiveFilters() {

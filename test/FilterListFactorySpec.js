@@ -1,7 +1,7 @@
 var {expect} = require('chai');
 
 var Filter = require('../src/Filter');
-var createFilterList = require('../src/FilterListFactory');
+var filterListFactory = require('../src/FilterListFactory');
 
 const DUMMY_FILTER_ID = 'fooBar';
 const DUMMY_FILTER_QUERY_PARAM_KEY = 'foo_bar';
@@ -16,6 +16,7 @@ class RangeFilter extends Filter {
   getParameters() {}
   isSetToDefaultState() {}
   resetToDefaultState() {}
+  updateFromQueryParamObject() {}
 }
 RangeFilter.constructorId = DUMMY_CONSTRUCTOR_ID;
 
@@ -26,12 +27,12 @@ var fooBarFilterOptions = {
   extra: {}
 };
 
-describe('createFilterList', function() {
+describe('filterListFactory', function() {
 
   var FilterList;
 
   beforeEach(function() {
-    FilterList = createFilterList([]);
+    FilterList = filterListFactory([]);
   });
 
   it('return a FilterList function', function() {
@@ -47,7 +48,7 @@ describe('FilterList', function() {
   var constructors = [RangeFilter];
 
   beforeEach(function() {
-    FilterList = createFilterList(constructors);
+    FilterList = filterListFactory(constructors);
     var filters = [fooBarFilterOptions];
     filterList = new FilterList(filters);
   });
@@ -63,6 +64,7 @@ describe('FilterList', function() {
     it('should return a filter', function() {
       var filter = filterList.getFilterByQueryParamKey(DUMMY_FILTER_QUERY_PARAM_KEY);
       expect(filter).to.be.an('object');
+      expect(filter.id).to.equal('fooBar');
     });
   });
 

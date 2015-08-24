@@ -24,7 +24,7 @@ class MultiselectFilter extends Filter {
   set(choiceKeyOrValue) {
     var ck = stringify(choiceKeyOrValue);
     if (_.isArray(ck)) {
-      _.forEach(cK, k => this._selectedChoices.push(this.getChoice(k)));
+      _.forEach(ck, k => this._selectedChoices.push(this.getChoice(k)));
     } else {
       if (this.isChoiceSelected(ck)) {
         this._selectedChoices = this._selectedChoices.filter(c => c.key !== ck);
@@ -58,21 +58,31 @@ class MultiselectFilter extends Filter {
   }
 
   getChoice(choiceKey) {
+    var ck = stringify(choiceKey);
     return _.find(this.choices, function(chr) {
-      return chr.key === choiceKey;
+      return chr.key === ck;
     });
   }
 
   isChoiceSelected(choiceKey) {
+    var ck = stringify(choiceKey);
     if (this.isSetToDefaultState()) {
       return false;
     } else {
-      return !!_.find(this._selectedChoices, c => c.key === choiceKey, 'key');
+      return !!_.find(this._selectedChoices, c => c.key === ck, 'key');
     }
   }
 
-  _getChoiceByValue(value) {
-    return _.find(this.choices, c => c.value === value);
+  updateFromQueryParamObject(obj) {
+    var that = this;
+    var choiceKeys = null;
+    Object.keys(obj).forEach(function(key) {
+      if (key === that.queryParamKey) {
+        choiceKeys = obj[key];
+      }
+    });
+    assert(!_.isNull(choiceKeys), 'SelectFilter ' + this.id + ' couldn\'t find its params');
+    this.set(choiceKeys);
   }
 
 }

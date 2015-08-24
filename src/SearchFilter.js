@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var {assert, stringify} = require('./utils');
 var Filter = require('./Filter');
 
 var DEFAULT_STATE = '';
@@ -39,6 +40,18 @@ class SearchFilter extends Filter {
 
   isSetToDefaultState() {
     return this._value === DEFAULT_STATE;
+  }
+
+  updateFromQueryParamObject(obj) {
+    var that = this;
+    var choiceKey = null;
+    Object.keys(obj).forEach(function(key) {
+      if (key === that.queryParamKey) {
+        choiceKey = obj[key];
+      }
+    });
+    assert(!_.isNull(choiceKey), this.constructorId + ' ' + this.id + ' couldn\'t find its params');
+    this.set(choiceKey);
   }
 
 }
