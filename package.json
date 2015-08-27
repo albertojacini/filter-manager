@@ -1,6 +1,6 @@
 {
   "name": "filter-manager",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A manager for HMTL form filters.",
   "main": "lib/index.js",
   "repository": {
