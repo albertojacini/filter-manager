@@ -66,12 +66,22 @@ describe('RangeFilter', function() {
   });
 
   describe('\'updateFromQueryParamObject\' method', function() {
+
     it('should update from a queryParam object', function() {
       var queryObject = {min_foo_bar: 4, max_foo_bar: 6, boo: 'baba'};
-      filter.updateFromQueryParamObject(queryObject);
+      var wasUpdated = filter.updateFromQueryParamObject(queryObject);
       expect(filter.get()[0]).to.equal(4);
       expect(filter.get()[1]).to.equal(6);
+      expect(wasUpdated).to.equal(true);
     });
+
+    it('shouldn\'t modify filter if the queryParam is empty', function() {
+      var queryObject = {};
+      var wasUpdated = filter.updateFromQueryParamObject(queryObject);
+      expect(filter.isSetToDefaultState()).to.equal(true);
+      expect(wasUpdated).to.equal(false);
+    });
+
   });
 
 });

@@ -46,6 +46,7 @@ class RangeFilter extends Filter {
   updateFromQueryParamObject(obj) {
     var that = this;
     var min = null, max = null;
+
     // Find 2 parameters like {min_length: 3, max_length: 7}
     Object.keys(obj).forEach(function (key) {
       if (_.endsWith(key, '_' + that.queryParamKey)) {
@@ -56,8 +57,17 @@ class RangeFilter extends Filter {
         }
       }
     });
-    assert(!_.isNull(min) && !_.isNull(max), 'RangeFilter ' + this.id + 'couldnt find its params');
-    this.set([obj[min], obj[max]]);
+
+    if (!_.isNull(min) && !_.isNull(max)) {
+      this.set([obj[min], obj[max]]);
+      return true;
+    } else if (_.isNull(min) && _.isNull(max)) {
+      return false;
+    } else {
+      console.warn('RangeFilter filter ' + this.id + 'can only find one param. It needs min and max.');
+      return false;
+    }
+
   }
 
 }

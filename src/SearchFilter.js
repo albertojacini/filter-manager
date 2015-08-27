@@ -50,8 +50,12 @@ class SearchFilter extends Filter {
         choiceKey = obj[key];
       }
     });
-    assert(!_.isNull(choiceKey), this.constructorId + ' ' + this.id + ' couldn\'t find its params');
-    this.set(choiceKey);
+    if (!_.isNull(choiceKey)) {
+      this.set(choiceKey);
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }

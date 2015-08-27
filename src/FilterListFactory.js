@@ -70,11 +70,13 @@ function createFilterList(constructors/*: array*/) {
     };
 
     // updateFiltersFromQueryObject takes a serialized object with query param keys (not js object keys).
-    // Select and multiselect filters need to be modified using the key that is retrieved with getChoiceKeyFromValue.
     updateFiltersFromQueryObject(obj) {
-      for (let f of this._allFilters) {
-        f.updateFromQueryParamObject(obj);
-      }
+      var updatedFilters = [];
+      _.forEach(this._allFilters, function(f) {
+        // updated filters must return true (not updated return false);
+        f.updateFromQueryParamObject(obj) ? updatedFilters.push(f) : function(){};
+      });
+      return updatedFilters;
     };
 
     updateFilter(id, value) {

@@ -59,11 +59,21 @@ describe('SearchFilter', function() {
   });
 
   describe('\'updateFromQueryParamObject\' method', function() {
+
     it('should update from a queryParam object', function() {
       var queryObject = {'foo_bar': 'Bono Vox', 'boo_ban': 7};
-      filter.updateFromQueryParamObject(queryObject);
+      var wasUpdated = filter.updateFromQueryParamObject(queryObject);
       expect(filter.get()).to.equal('Bono Vox');
+      expect(wasUpdated).to.equal(true);
     });
+
+    it('shouldn\'t modify filter if the queryParam is empty', function() {
+      var queryObject = {};
+      var wasUpdated = filter.updateFromQueryParamObject(queryObject);
+      expect(filter.isSetToDefaultState()).to.equal(true);
+      expect(wasUpdated).to.equal(false);
+    });
+
   });
 
 });

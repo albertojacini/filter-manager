@@ -81,8 +81,12 @@ class MultiselectFilter extends Filter {
         choiceKeys = obj[key];
       }
     });
-    assert(!_.isNull(choiceKeys), 'SelectFilter ' + this.id + ' couldn\'t find its params');
-    this.set(choiceKeys);
+    if (!_.isNull(choiceKeys)) {
+      this.set(choiceKeys);
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }
