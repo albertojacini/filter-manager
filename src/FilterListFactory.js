@@ -16,22 +16,23 @@ function createFilterList(constructors/*: array*/) {
   assert(_.isArray(constructors), 'constructors must be an array');
   // Every added filter must implement an interface
 
-  for (var c of constructors) {
-    for (var m of mandatoryFilterConstructorInterface) {
+  _.forEach(constructors, function(c) {
+    _.forEach(mandatoryFilterConstructorInterface, function(m) {
       assert(_.isFunction(c.prototype[m]), c.constructorId + ' constructor must implement the \'' + m + '\' method!');
-    }
-  }
+    });
+  });
 
   class FilterList {
 
     constructor(arrayOfOptions/*: array*/) {
+      var that = this;
       assert(_.isArray(arrayOfOptions), 'initial filter options bust be collected in an array');
       this.filterConstructors = _.indexBy(constructors, 'constructorId');
       this._allFilters = {};
       this.parameters = {};
-      for (var f of arrayOfOptions) {
-        this._addFilter(f);
-      }
+      _.forEach(arrayOfOptions, function(f) {
+        that._addFilter(f);
+      });
     }
 
     /**
