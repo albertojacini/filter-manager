@@ -1,5 +1,9 @@
 ## Filter manager.
 
+# Development
+
+1. Compile manually with 'npm run build' (not 'npm build'!!)
+
 # Usage
 ```js
 

@@ -24,6 +24,10 @@ class RangeFilter extends Filter {
   }
 
   set(range /*: array */) {
+    // Convert string to number
+    range[0] = _.isString(range[0]) ? parseInt(range[0]) : range[0] ;
+    range[1] = _.isString(range[1]) ? parseInt(range[1]) : range[1] ;
+    // assert(_.isArray(range) && range.lenght === 2), 'Range filter only can be set with with an array of numbers or strings convertible to numbers');
     this._range = range;
   }
 
@@ -49,7 +53,7 @@ class RangeFilter extends Filter {
 
     // Find 2 parameters like {min_length: 3, max_length: 7}
     Object.keys(obj).forEach(function (key) {
-      if (_.endsWith(key, '_' + that.queryParamKey)) {
+      if (key.substring(3) === ('_' + that.queryParamKey)) {
         if (_.startsWith(key, 'min_')) {
           min = key;
         } else if (_.startsWith(key, 'max_')) {

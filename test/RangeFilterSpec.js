@@ -35,6 +35,12 @@ describe('RangeFilter', function() {
       expect(r[0]).to.equal(2);
       expect(r[1]).to.equal(9);
     });
+    it('should convert strings to numbers', function() {
+      filter.set(['2', '9']);
+      var r = filter.get();
+      expect(r[0]).to.equal(2);
+      expect(r[1]).to.equal(9);
+    });
   });
 
   describe('\'isSetToDefaultValue\' method', function() {
